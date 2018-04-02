@@ -1,0 +1,17 @@
+name: CleanWarps
+version: 1.0
+main: squwid.CleanWarps
+description: Plugin for warps.
+author: Squwid
+link: github.com/Squwid
+commands:
+    warp:
+        usage: /<command> <args> [optional args]
+        description: Use warp Commands.
+    go:
+        usage: /<command> <args> [optional args]
+        description: Use warp Commands.
+    g:
+        usage: /<command> <args> [optional args]
+        description: Admin Commands
+    
