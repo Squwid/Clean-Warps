@@ -53,37 +53,37 @@ public class WarpsSettingsManager {
         return this.warps;
     }
     
-    public Warp getWarp(String playerName, int warpIndex){
-        playerName = playerName.toLowerCase();
-        List<String> ls = getPlayerWarpList(playerName);
+    public Warp getWarp(String uuid, int warpIndex){
+        String player = uuid.replaceAll("[-]", "");
+        List<String> ls = getPlayerWarpList(player);
         String warpName = ls.get(warpIndex).toString().toLowerCase();
         
-        Warp w = getWarp(playerName, warpName);
+        Warp w = getWarp(player, warpName);
         return w;
     }
     
-    public Warp getWarp(String playerName, String warpName){
-        playerName = playerName.toLowerCase();
+    public Warp getWarp(String uuid, String warpName){
+        uuid = uuid.replaceAll("[-]", "");
         warpName = warpName.toLowerCase();
-        if (this.getData().getString(playerName + '.' + warpName) == null ){
+        if (this.getData().getString(uuid + '.' + warpName) == null ){
             return null;
         }
-        World world = Bukkit.getServer().getWorld(this.getData().getString(playerName + "." + warpName + ".world"));
-        double x = this.getData().getDouble(playerName + "." + warpName + ".x");
-        double y = this.getData().getDouble(playerName + "." + warpName + ".y");
-        double z = this.getData().getDouble(playerName + "." + warpName + ".z");
-        float yaw = this.getData().getInt(playerName + "." + warpName + ".yaw");
-        float pitch = this.getData().getInt(playerName + "." + warpName + ".pitch");
-        Warp w = new Warp(playerName, warpName, world, x, y, z, yaw, pitch);
+        World world = Bukkit.getServer().getWorld(this.getData().getString(uuid + "." + warpName + ".world"));
+        double x = this.getData().getDouble(uuid + "." + warpName + ".x");
+        double y = this.getData().getDouble(uuid + "." + warpName + ".y");
+        double z = this.getData().getDouble(uuid + "." + warpName + ".z");
+        float yaw = this.getData().getInt(uuid + "." + warpName + ".yaw");
+        float pitch = this.getData().getInt(uuid + "." + warpName + ".pitch");
+        Warp w = new Warp("", uuid, warpName, world, x, y, z, yaw, pitch);
         //public Warp(String playerName, String warpName, World world, double x, double y, double z, float yaw, float pitch)
         return w;
     }
     
     public Warp getWarp(Player p, String warpName) {
         warpName = warpName.toLowerCase();
-        String playerName = p.getName().toLowerCase();
+        String player = p.getUniqueId().toString().replaceAll("[-]", "");
         // if the warp does not exist
-        Warp w = getWarp(playerName, warpName);
+        Warp w = getWarp(player, warpName);
         if (w == null) {
             return null;
         }
@@ -92,19 +92,20 @@ public class WarpsSettingsManager {
     }
     
     public void setWarp(Warp warp){
-        String playerName = warp.getPlayerName().toLowerCase();
+        //String playerName = warp.getPlayerName().toLowerCase();
+        String player = warp.getUUID();
         String warpName = warp.getWarpName().toLowerCase();
-        this.getData().set(playerName + "." + warpName + ".x", Double.valueOf(warp.getX()));
-        this.getData().set(playerName + "." + warpName + ".y", Double.valueOf(warp.getY()));
-        this.getData().set(playerName + "." + warpName + ".z", Double.valueOf(warp.getZ()));
-        this.getData().set(playerName + "." + warpName + ".yaw", Float.valueOf(warp.getYaw()));
-        this.getData().set(playerName + "." + warpName + ".pitch", Float.valueOf(warp.getPitch()));
-        this.getData().set(playerName + "." + warpName + ".world", warp.getWorld().getName());
+        this.getData().set(player + "." + warpName + ".x", Double.valueOf(warp.getX()));
+        this.getData().set(player + "." + warpName + ".y", Double.valueOf(warp.getY()));
+        this.getData().set(player + "." + warpName + ".z", Double.valueOf(warp.getZ()));
+        this.getData().set(player + "." + warpName + ".yaw", Float.valueOf(warp.getYaw()));
+        this.getData().set(player + "." + warpName + ".pitch", Float.valueOf(warp.getPitch()));
+        this.getData().set(player + "." + warpName + ".world", warp.getWorld().getName());
 
-        List<String> warpList = this.getData().getStringList(playerName + ".warplist");
+        List<String> warpList = this.getData().getStringList(player + ".warplist");
         if (!warpList.contains(warpName)){
             warpList.add(warpName);
-            this.getData().set(playerName + ".warplist", warpList);
+            this.getData().set(player + ".warplist", warpList);
         }
         this.saveData();
     }
@@ -114,24 +115,24 @@ public class WarpsSettingsManager {
     }
     
     public int CountWarps(Player p){
-        String playerName = p.getName().toLowerCase();
-        if (!this.getData().contains(playerName)){
+        String player = p.getUniqueId().toString().replaceAll("[-]", "");
+        if (!this.getData().contains(player)){
             List<String> blankList = new ArrayList<String>();
-            this.getData().set(playerName + ".warplist", blankList);
+            this.getData().set(player + ".warplist", blankList);
         }
-        List<String>warplist = this.getData().getStringList(playerName + ".warplist");
+        List<String>warplist = this.getData().getStringList(player + ".warplist");
         return warplist.size();
     }
     
     public List<String> getPlayerWarpList(Player p){
-        String playerName = p.getName().toLowerCase();
-        List<String> ls = this.getData().getStringList(playerName + ".warplist");
+        String player = p.getUniqueId().toString().replaceAll("[-]", "");
+        List<String> ls = this.getData().getStringList(player + ".warplist");
         return ls;
     }
     
-    public List<String> getPlayerWarpList(String playerName){
-        playerName = playerName.toLowerCase();
-        List<String> ls = this.getData().getStringList(playerName + ".warplist");
+    public List<String> getPlayerWarpList(String uuid){
+        String player = uuid.replaceAll("[-]", "");
+        List<String> ls = this.getData().getStringList(player + ".warplist");
         return ls;
     }
     
@@ -176,6 +177,21 @@ public class WarpsSettingsManager {
             Bukkit.getServer().getLogger().severe("Could not create warps file");
         }
     }
+    
+    public Player getOnlinePlayer(String pName){
+        for (Object en : Bukkit.getServer().getOnlinePlayers()){
+            if (!(en instanceof Player)){
+                continue;
+            }
+            if (en != null){
+                if(((Player) en).getName().equalsIgnoreCase(pName)){
+                    return (Player)en;
+                }
+            }
+        }
+        return null;
+    }
+    
     public PluginDescriptionFile getDescription() {
         return this.p.getDescription();
     }

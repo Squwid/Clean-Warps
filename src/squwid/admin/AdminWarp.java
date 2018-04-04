@@ -20,8 +20,17 @@ public class AdminWarp implements AdminCommand {
             mm.msg(p, "Usage: /g tp <player> [warpIndex]");
             return;
         }
-        String playerName = args[0].toLowerCase();
+        
+        String targetPlayerName = args[0].toLowerCase();
+        Player targetPlayer = sm.getOnlinePlayer(targetPlayerName);
+        if (targetPlayer == null) {
+            mm.msg(p, "Could not find somebody online with the name " + args[0]);
+            return;
+        }
+        
+        String targetUUID = targetPlayer.getUniqueId().toString().replaceAll("[-]", "");
         String warpIndexString = args[1];
+        
         int warpIndex;
         try{
             warpIndex = Integer.valueOf(warpIndexString);
@@ -32,8 +41,11 @@ public class AdminWarp implements AdminCommand {
             mm.msg(p, "Usage: /g tp <player> [warpIndex]");
             return;
         }
+        
+        
+        
         warpIndex -= 1;
-        Warp w = sm.getWarp(playerName, warpIndex);
+        Warp w = sm.getWarp(targetUUID, warpIndex);
         String warpName = w.getWarpName().toLowerCase();
         //If the warp does not exist
         if (w == null){

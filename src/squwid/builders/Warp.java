@@ -29,8 +29,9 @@ public class Warp {
     
     //TODO:::
     
-    public Warp(String playerName, String warpName, World world, double x, double y, double z, float yaw, float pitch){
+    public Warp(String playerName, String playerUUID_string,String warpName, World world, double x, double y, double z, float yaw, float pitch){
         this.name = playerName;
+        this.id = playerUUID_string;
         this.x = x;
         this.y = y;
         this.z = z;
@@ -141,6 +142,11 @@ public class Warp {
     
     public void setPitch(float pitch){
         this.pitch = pitch;
+    }
+    
+    public String getUUID() { 
+        String newUUID = id.replaceAll("[-]", "");
+        return newUUID;
     }
     
 }

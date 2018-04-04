@@ -14,11 +14,19 @@ public class AdminSet implements AdminCommand {
             mm.msg(p, "Usage: /g set <player> <warp>");
             return;
         }
-        String playerName = args[0].toLowerCase();
+        String targetPlayerName = args[0].toLowerCase();
         String warpName = args[1].toLowerCase();
+        
+        Player targetPlayer = sm.getOnlinePlayer(targetPlayerName);
+        if (targetPlayer == null) {
+            mm.msg(p, "Could not find somebody online with the name " + args[0]);
+            return;
+        }
+        String targetUUID = targetPlayer.getUniqueId().toString().replaceAll("[-]", "");
+        
         //  public Warp(Player p, String warpName,World world, double x, double y, double z, float yaw, float pitch){
         // Warp(String playerName, String warpName, World world, double x, double y, double z, float yaw, float pitch)
-        Warp warp = new Warp(playerName, warpName, p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ(), p.getLocation().getYaw(),p.getLocation().getPitch());
+        Warp warp = new Warp(targetPlayer.getName(), targetUUID, warpName, p.getWorld(), p.getLocation().getX(), p.getLocation().getY(), p.getLocation().getZ(), p.getLocation().getYaw(),p.getLocation().getPitch());
         sm.setWarp(warp);
         mm.msg(p, "Set " + args[1] + " for " + args[0]);
         return;

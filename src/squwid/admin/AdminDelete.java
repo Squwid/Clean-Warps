@@ -17,7 +17,13 @@ public class AdminDelete implements AdminCommand {
             mm.msg(p, "Usage: /g del <player> [warpIndex]");
             return;
         }
-        String playerName = args[0].toLowerCase();
+        String targetPlayerName = args[0].toLowerCase();
+        Player targetPlayer = sm.getOnlinePlayer(targetPlayerName);
+        if (targetPlayer == null) {
+            mm.msg(p, "Could not find somebody online with the name " + args[0]);
+            return;
+        }
+        String targetUUID = targetPlayer.getUniqueId().toString().replaceAll("[-]", "");
         String warpIndexString = args[1];
         int warpIndex;
         try{
@@ -29,17 +35,17 @@ public class AdminDelete implements AdminCommand {
             return;
         }
         warpIndex -= 1;
-        Warp w = sm.getWarp(playerName, warpIndex);
+        Warp w = sm.getWarp(targetPlayer.getUniqueId().toString(), warpIndex);
         String warpName = w.getWarpName().toLowerCase();
         //If the warp does not exist
         if (w == null){
             mm.msg(p, "Warp " + warpName + " does not exist");
             return;
         }
-        List<String> warpList = sm.getData().getStringList(playerName + ".warplist");
-        sm.getData().set(playerName + "." + warpName, null);
+        List<String> warpList = sm.getData().getStringList(targetUUID + ".warplist");
+        sm.getData().set(targetUUID + "." + warpName, null);
         warpList.remove(warpName);
-        sm.getData().set(playerName + ".warplist", warpList);
+        sm.getData().set(targetUUID + ".warplist", warpList);
         sm.saveData();
         mm.msg(p, args[0] + "'s warp " + warpName + " was successfully deleted");
         return;

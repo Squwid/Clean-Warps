@@ -20,8 +20,7 @@ public class SetCommand {
     
     //TODO: Check length and bad chars in warpname
     public void onCommand(Player p, String[] args) {
-        String playerName = p.getName().toLowerCase();
-        
+        //String playerName = p.getName().toLowerCase();
         // If args are blank
         if (args.length == 1){
             mm.msg(p, "Usage: /warp set <warp>");
@@ -35,7 +34,7 @@ public class SetCommand {
             return;
         }
         
-        String warpName = args[1].toLowerCase();
+        String warpName = args[1].toLowerCase().replaceAll("[-!@#$%^&*()?|}{,.]", "");
         //  public Warp(Player p, String warpName,World world, double x, double y, double z, float yaw, float pitch){
         Warp warp = new Warp(p, warpName);
         /*

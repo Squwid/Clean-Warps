@@ -22,7 +22,8 @@ public class DeleteCommand {
     }
     
     public void onCommand(Player p, String[] args) {
-        String playerName = p.getName().toLowerCase();
+        //String playerName = p.getName().toLowerCase();
+        String player = p.getUniqueId().toString().replaceAll("[-]", "");
         // If a player does not give a warp to delete 
         if (args.length == 1){
             mm.msg(p, "Usage: /warp del <warpName>");
@@ -35,10 +36,10 @@ public class DeleteCommand {
             mm.msg(p, "Warp " + args[1] + " does not exist");
             return;
         }
-        sm.getData().set(playerName + "." + warpName, null);
+        sm.getData().set(player + "." + warpName, null);
         List<String> warpList = sm.getPlayerWarpList(p);
         warpList.remove(warpName);
-        sm.getData().set(playerName + ".warplist", warpList);
+        sm.getData().set(player + ".warplist", warpList);
         sm.saveData();
         mm.msg(p, "Warp " + args[1] + " has been deleted");
         return;
