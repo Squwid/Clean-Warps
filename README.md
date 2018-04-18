@@ -1,7 +1,12 @@
 # CleanWarps
 
+### [Bukkit Link](https://dev.bukkit.org/projects/cleanwarps)
+
+#
+
+
 ### Description: This plugin is a look-alike Minecraft Plugin like the MCPVP warps plugin. 
-### Version: 1.2 Optimized for **Bukkit 1.12.2.** (Spigot version in the works)
+### Version: 1.0.0 Optimized for **Bukkit 1.12.2.** (Spigot version in the works)
 #
 #### About: This plugin is free to use and fork to create any changes that need to be made. Download the `.jar` if you are unsure on how to modify and compile the code, and drag into plugins folder and run the server. Simple as that. 
 
