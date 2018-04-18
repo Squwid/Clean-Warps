@@ -24,6 +24,19 @@ public class WarpsSettingsManager {
     File warpfile;
     private static int maxWarps = 15;
     
+    
+    public static int getMaxWarps(Player p){
+        if(p.hasPermission("cleanwarps.admin")){
+            return 100;
+        }
+        for (int i=0; i < 100; i--){
+            if(p.hasPermission("cleanwarps.limit."+i)) {
+                return i;
+            }
+        }
+        return maxWarps;
+    } 
+    
     public static int getMaxWarps(){
         return maxWarps;
     }
@@ -135,39 +148,6 @@ public class WarpsSettingsManager {
         List<String> ls = this.getData().getStringList(player + ".warplist");
         return ls;
     }
-    
-    /*
-    if (!warpList.contains(warpName)){
-            warpList.add(warpName);
-            //sm.getData().set(playerName + ".warplist", warpList);
-            //sm.setWarp(warp);
-        }
-     */
-    
-    /*
-        sm.getData().set(playerName, warpName);
-        sm.getData().set(playerName + "." + warpName + ".x", Double.valueOf(p.getLocation().getX()));
-        sm.getData().set(playerName + "." + warpName + ".y", Double.valueOf(p.getLocation().getY()));
-        sm.getData().set(playerName + "." + warpName + ".z", Double.valueOf(p.getLocation().getZ()));
-        sm.getData().set(playerName + "." + warpName + ".yaw", Float.valueOf(p.getLocation().getYaw()));
-        sm.getData().set(playerName + "." + warpName + ".pitch", Float.valueOf(p.getLocation().getPitch()));
-        sm.getData().set(playerName + "." + warpName + ".world", p.getWorld().getName());
-     */
-    
-    
-    /*
-        CONSTRUCTOR FOR WARP:
-        public Warp(Player p, String warpName,World world, double x, double y, double z, float yaw, float pitch)
-     */
-    
-    /*
-        World world = Bukkit.getServer().getWorld(sm.getData().getString(playerName + "." + warpName + "." + "world"));
-        double x = sm.getData().getDouble(playerName + "." + warpName + ".x");
-        double y = sm.getData().getDouble(playerName + "." + warpName + ".y");
-        double z = sm.getData().getDouble(playerName + "." + warpName + ".z");
-        float yaw = sm.getData().getInt(playerName + "." + warpName + ".yaw");
-        float pitch = sm.getData().getInt(playerName + "." + warpName + ".pitch");
-     */
     
     public void saveData() {
         try {
