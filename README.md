@@ -1,6 +1,6 @@
 # CleanWarps
 
-### [Bukkit Link](https://dev.bukkit.org/projects/cleanwarps)
+### [Bukkit Link](https://dev.bukkit.org/projects/cleanwarps) - Over 100 Downloads!
 
 #
 
