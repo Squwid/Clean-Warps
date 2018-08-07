@@ -29,7 +29,7 @@ public class WarpsSettingsManager {
         if(p.hasPermission("cleanwarps.admin")){
             return 100;
         }
-        for (int i=0; i < 100; i--){
+        for (int i=0; i < 100; i++){
             if(p.hasPermission("cleanwarps.limit."+i)) {
                 return i;
             }
@@ -123,7 +123,7 @@ public class WarpsSettingsManager {
         this.saveData();
     }
     public void gitPrint(){
-        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Check out github.com/Squwid for source code and usages!");
+        Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "Go to github.com/Squwid for any errors or ideas for future patches");
         return ;
     }
     
