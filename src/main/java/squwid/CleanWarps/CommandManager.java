@@ -10,6 +10,7 @@ import org.bukkit.plugin.Plugin;
 
 import squwid.CleanWarps.cmds.CommandInterface;
 import squwid.CleanWarps.cmds.SetCommand;
+import squwid.CleanWarps.cmds.WarpCommand;
 import squwid.CleanWarps.util.WarpsMessageManager;
 
 public class CommandManager implements CommandExecutor {
@@ -21,6 +22,7 @@ public class CommandManager implements CommandExecutor {
         this.p = p;
 
         this.commands.put("set", new SetCommand());
+        this.commands.put("to", new WarpCommand());
     }
 
     public static CommandManager getInstance() {return instance;}
@@ -34,7 +36,6 @@ public class CommandManager implements CommandExecutor {
 
         Player p = (Player) sender;
         
-        // TODO: send back helps
         if (args.length == 0) {
             WarpsMessageManager.msg(p, "Invalid command");
             return false;
@@ -47,7 +48,7 @@ public class CommandManager implements CommandExecutor {
             return false;
         }
 
-        WarpsMessageManager.msg(p, command.desc());
+        command.onCommand(p, args);
         return true;
     }
 }

@@ -12,6 +12,6 @@ public class App extends JavaPlugin {
     }
     @Override
     public void onDisable() {
-        getLogger().info("peace");
+        WarpsSettingsManager.getInstance().saveData();
     }
 }
