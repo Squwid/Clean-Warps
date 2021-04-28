@@ -10,7 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import squwid.CleanWarps.util.WarpsMessageManager;
+import squwid.CleanWarps.util.MessageManager;
 
 public class WarpsSettingsManager {
     private static WarpsSettingsManager instance = new WarpsSettingsManager();
@@ -75,10 +75,26 @@ public class WarpsSettingsManager {
         this.saveData();
     }
 
+    public void delWarp(Player p, String warpName) {
+        String uuid = p.getUniqueId().toString().replaceAll("[-]", "");
+        this.warps.set(uuid + "." + warpName, null);
+        
+        List<String> warpList = this.warps.getStringList(uuid + ".warplist");
+        warpList.remove(warpName);
+        this.warps.set(uuid + ".warplist", warpList);
+        this.saveData();
+    }
+
+    public List<String> getPlayerWarpList(String uuid) {
+        uuid = uuid.replaceAll("[-]", "");
+        List<String> ls = this.warps.getStringList(uuid + ".warplist");
+        return ls;
+    }
+
     public void saveData() {
         try {
             this.warps.save(this.warpFile);
-            WarpsMessageManager.log("Saved warps file");
+            MessageManager.log("Saved warps file");
         }
         catch (Exception e) {
             Bukkit.getServer().getLogger().severe("Could not save warps file");

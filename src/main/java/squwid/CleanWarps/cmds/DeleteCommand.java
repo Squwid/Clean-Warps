@@ -6,7 +6,7 @@ import squwid.CleanWarps.Warp;
 import squwid.CleanWarps.WarpsSettingsManager;
 import squwid.CleanWarps.util.MessageManager;
 
-public class SetCommand implements CommandInterface {
+public class DeleteCommand implements CommandInterface {
     WarpsSettingsManager sm = WarpsSettingsManager.getInstance();
 
     @Override
@@ -16,26 +16,33 @@ public class SetCommand implements CommandInterface {
             return;
         }
 
-        // TODO: Check warps count
         String warpName = Warp.CleanWarpName(args[1]);
-        
-        Warp warp = new Warp(p, warpName);
-        sm.setWarp(warp);
-        MessageManager.msg(p, "Warp " + warpName + " has been set");
+
+        Warp warp = this.sm.getWarp(p, warpName);
+        if (warp == null) {
+            MessageManager.msg(p, "Warp " + args[1] + " does not exist");
+            return;
+        }
+
+        this.sm.delWarp(p, warpName);
+        MessageManager.msg(p, "Warp " + args[1] + " has been deleted");
     }
 
     @Override
     public String name() {
-        return "set";
+        return "del";
     }
 
     @Override
     public String usage() {
-        return "/go set <warp>";
+        // TODO Auto-generated method stub
+        return "/go del <warp>";
     }
 
     @Override
     public String desc() {
-        return "Set a warp";
+        // TODO Auto-generated method stub
+        return "Delete a warp";
     }
+
 }

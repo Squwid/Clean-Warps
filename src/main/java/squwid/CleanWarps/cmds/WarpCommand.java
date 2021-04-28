@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 import squwid.CleanWarps.Warp;
 import squwid.CleanWarps.WarpsSettingsManager;
-import squwid.CleanWarps.util.WarpsMessageManager;
+import squwid.CleanWarps.util.MessageManager;
 
 public class WarpCommand implements CommandInterface {
 
@@ -14,7 +14,7 @@ public class WarpCommand implements CommandInterface {
         WarpsSettingsManager sm = WarpsSettingsManager.getInstance();
 
         if (args.length < 2) {
-            WarpsMessageManager.msg(p, "Invalid command");
+            MessageManager.msg(p, "Invalid command");
             return;
         }
 
@@ -22,7 +22,7 @@ public class WarpCommand implements CommandInterface {
     
         Warp warp = sm.getWarp(p, warpName);
         if (warp == null) {
-            WarpsMessageManager.msg(p, "Warp " + warpName + " was not found");
+            MessageManager.msg(p, "Warp " + warpName + " was not found");
             return;
         }
 
@@ -30,26 +30,23 @@ public class WarpCommand implements CommandInterface {
         try {
             p.teleport(loc);
         } catch (Exception e) {
-            WarpsMessageManager.error(p, e.getMessage());
+            MessageManager.error(p, e.getMessage());
         }
     }
 
     @Override
     public String name() {
-        // TODO Auto-generated method stub
-        return null;
+        return "to";
     }
 
     @Override
     public String usage() {
-        // TODO Auto-generated method stub
-        return null;
+        return "/go to <warp>";
     }
 
     @Override
     public String desc() {
-        // TODO Auto-generated method stub
-        return null;
+        return "Teleport to a warp";
     }
     
 }
