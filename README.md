@@ -2,7 +2,7 @@
 
 CleanWarps is a bukkit plugin that allows players to set and teleport to warps. This plugin also comes with admin commands that allows server administrators to look at players warps and teleport between them along with allowing players to only set a certain amount of warps
 
-## [Bukkit Link](https://dev.bukkit.org/projects/cleanwarps) - Over 1300 Downloads!!
+## [Bukkit Link](https://dev.bukkit.org/projects/cleanwarps) - Over 1750 Downloads!!
 
 ### Version: 1.3 Optimized for **Bukkit 1.13**
 
