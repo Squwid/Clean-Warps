@@ -1,4 +1,4 @@
-package squwid.CleanWarps;
+package squwid.CleanWarps.settings;
 
 import java.io.File;
 import java.util.List;
@@ -10,17 +10,22 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import squwid.CleanWarps.util.MessageManager;
+import squwid.CleanWarps.Warp;
 
-public class WarpsSettingsManager {
-    private static WarpsSettingsManager instance = new WarpsSettingsManager();
+public class LocalSettings implements SettingsInterface {
+    // private static LocalSettings settings = new LocalSettings();
+
+    // public static LocalSettings getInstance() {
+    //     return settings;
+    // }
 
     private Plugin p;
     private FileConfiguration warps;
     private File warpFile;
 
-    public void setup(Plugin p) {
-        this.p = p;
+    @Override
+    public void onInit(Plugin plugin) {
+        this.p = plugin;
         if (!this.p.getDataFolder().exists()) {
             this.p.getDataFolder().mkdir();
         }
@@ -38,10 +43,12 @@ public class WarpsSettingsManager {
         }
     }
 
-    public static WarpsSettingsManager getInstance() {
-        return instance;
+    @Override
+    public void onShutdown() {
+        this.saveData();
     }
 
+    @Override
     public Warp getWarp(Player p, String warpName) {
         warpName = warpName.toLowerCase();
         String uuid = p.getUniqueId().toString().replaceAll("[-]", "");
@@ -58,6 +65,7 @@ public class WarpsSettingsManager {
         return new Warp(x, y, z, world, yaw, pitch);
     }
 
+    @Override
     public void setWarp(Warp warp) {
         String uuid = warp.getPlayer().getUniqueId().toString().replaceAll("[-]", "");
         this.warps.set(uuid + "." + warp.getWarpName() + ".x", Double.valueOf(warp.getX()));
@@ -75,6 +83,7 @@ public class WarpsSettingsManager {
         this.saveData();
     }
 
+    @Override
     public void delWarp(Player p, String warpName) {
         String uuid = p.getUniqueId().toString().replaceAll("[-]", "");
         this.warps.set(uuid + "." + warpName, null);
@@ -85,16 +94,18 @@ public class WarpsSettingsManager {
         this.saveData();
     }
 
-    public List<String> getPlayerWarpList(String uuid) {
-        uuid = uuid.replaceAll("[-]", "");
+    @Override
+    public List<String> listWarps(Player p) {
+        String uuid = p.getUniqueId().toString().replaceAll("[-]", "");
         List<String> ls = this.warps.getStringList(uuid + ".warplist");
+
         return ls;
     }
 
-    public void saveData() {
+    private void saveData() {
         try {
             this.warps.save(this.warpFile);
-            MessageManager.log("Saved warps file");
+            Bukkit.getServer().getLogger().info("Saved warps file");
         }
         catch (Exception e) {
             Bukkit.getServer().getLogger().severe("Could not save warps file");

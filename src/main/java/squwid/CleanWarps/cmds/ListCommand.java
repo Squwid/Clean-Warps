@@ -2,22 +2,26 @@ package squwid.CleanWarps.cmds;
 
 import java.util.List;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import squwid.CleanWarps.WarpsSettingsManager;
-import squwid.CleanWarps.util.MessageManager;
+import squwid.CleanWarps.settings.SettingsInterface;
 
 public class ListCommand implements CommandInterface {
-
-    WarpsSettingsManager sm = WarpsSettingsManager.getInstance();
+    private SettingsInterface settings;
+    
+    public ListCommand(SettingsInterface settings) {
+        this.settings = settings;
+    }
 
     @Override
     public void onCommand(Player p, String[] args) {
-        List<String> warps = sm.getPlayerWarpList(p.getUniqueId().toString().replaceAll("[-]", ""));
+        List<String> warps = this.settings.listWarps(p);
         
         int warpCount = warps.size();
-        MessageManager.msg(p, "Warp Count: " + warpCount);
-        MessageManager.msg(p, "Warps: "+warps);
+
+        p.sendMessage(ChatColor.GRAY + "Warp Count: " + warpCount);
+        p.sendMessage(ChatColor.GRAY + "Warps: " + warps);
     }
 
     @Override

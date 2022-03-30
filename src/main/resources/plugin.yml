@@ -5,9 +5,6 @@ description: Plugin for warps.
 author: Squwid
 link: github.com/Squwid/Clean-Warps
 commands:
-    warp:
-        usage: /<command> <args> [optional args]
-        description: Use warp Commands.
     go:
         usage: /<command> <args> [optional args]
         description: Use warp Commands.

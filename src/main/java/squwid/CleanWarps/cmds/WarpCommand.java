@@ -1,28 +1,33 @@
 package squwid.CleanWarps.cmds;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import squwid.CleanWarps.Warp;
-import squwid.CleanWarps.WarpsSettingsManager;
-import squwid.CleanWarps.util.MessageManager;
+import squwid.CleanWarps.settings.SettingsInterface;
 
 public class WarpCommand implements CommandInterface {
+    private SettingsInterface settings;
+
+    public WarpCommand(SettingsInterface settings) {
+        this.settings = settings;
+    }
 
     @Override
     public void onCommand(Player p, String[] args) {
-        WarpsSettingsManager sm = WarpsSettingsManager.getInstance();
 
         if (args.length < 2) {
-            MessageManager.msg(p, "Invalid command");
+            p.sendMessage(ChatColor.GRAY + "Usage: " + this.usage());
             return;
         }
 
         String warpName = Warp.CleanWarpName(args[1]);
     
-        Warp warp = sm.getWarp(p, warpName);
+        Warp warp = this.settings.getWarp(p, warpName);
         if (warp == null) {
-            MessageManager.msg(p, "Warp " + warpName + " was not found");
+            p.sendMessage(ChatColor.GRAY + "Warp " + warpName + " was not found");
             return;
         }
 
@@ -30,7 +35,7 @@ public class WarpCommand implements CommandInterface {
         try {
             p.teleport(loc);
         } catch (Exception e) {
-            MessageManager.error(p, e.getMessage());
+            Bukkit.getServer().getLogger().severe("Error teleporting user " + p.getDisplayName() + ": " + e.getMessage());
         }
     }
 
