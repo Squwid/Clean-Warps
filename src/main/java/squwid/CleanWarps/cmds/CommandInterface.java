@@ -7,5 +7,4 @@ public interface CommandInterface {
     public String name();
     public String usage();
     public String desc();
-    
 }

@@ -16,10 +16,13 @@ import squwid.CleanWarps.cmds.DeleteCommand;
 import squwid.CleanWarps.cmds.ListCommand;
 import squwid.CleanWarps.cmds.SetCommand;
 import squwid.CleanWarps.cmds.WarpCommand;
+import squwid.CleanWarps.settings.SettingsInterface;
 import squwid.CleanWarps.util.MessageManager;
 
 public class CommandManager implements CommandExecutor {
     private static CommandManager instance = new CommandManager();
+    private SettingsInterface db;
+
     private TreeMap<String, CommandInterface> commands = new TreeMap<>();
     private Plugin plugin;
 
